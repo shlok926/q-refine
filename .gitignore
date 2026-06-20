@@ -1,0 +1,23 @@
+# Virtual Environments
+quantum_env/
+venv/
+env/
+.env
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Output files & Logs
+q_refine_dashboard.png
+temp_dashboard.png
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
