@@ -29,8 +29,9 @@ if mode == "Quantum Fourier Transform (QFT)":
     
     num_q = st.slider("Number of Qubits for QFT", min_value=2, max_value=8, value=4)
     
-    qc = QuantumCircuit(num_q)
-    qc.append(QFT(num_q).decompose(), range(num_q))
+    # Generate and fully decompose the QFT circuit to show internal gates
+    qft_circuit = QFT(num_q)
+    qc = qft_circuit.decompose()
     
     st.markdown("### QFT Circuit Diagram")
     try:
