@@ -36,7 +36,12 @@
 - [🛠️ Installation](#️-installation)
 - [🚀 How to Run (3 Ways)](#-how-to-run-3-ways)
 - [🏗️ Architecture](#️-architecture)
+- [🌍 Applications & Use Cases](#-applications--use-cases)
+- [🔮 Future Scope](#-future-scope)
 - [🛡️ Security Note](#️-security-note)
+- [🤝 Contributing & Feedback](#-contributing--feedback)
+- [⭐ Show Your Support](#-show-your-support)
+- [👤 Author & Contact](#-author--contact)
 
 ---
 
@@ -150,5 +155,5 @@ Contributions, suggestions, and feedback are highly welcome!
   <a href="https://www.linkedin.com/in/shlok-thorat-39916a405/"><img src="https://img.shields.io/badge/LinkedIn-shlok--thorat--39916a405-blue?style=flat-square&logo=linkedin" alt="LinkedIn"></a>
   
   <br><br>
-  Made with ❤️ for Quantum Computing Innovation • <a href="#-q-refine-quantum-ai-robustness-benchmark">Back to Top</a>
+  Made with Shlok! for Quantum Computing Innovation • <a href="#-q-refine-quantum-ai-robustness-benchmark">Back to Top</a>
 </div>
