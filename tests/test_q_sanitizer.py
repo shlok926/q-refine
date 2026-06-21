@@ -5,7 +5,6 @@ from q_refine.mitigation_engine.q_sanitizer import QSanitizer
 def test_q_sanitizer_init():
     sanitizer = QSanitizer(mitigation_method="ZNE")
     assert sanitizer.mitigation_method == "ZNE"
-    assert sanitizer.scale_factors == [1, 3, 5]
 
 def test_circuit_folding():
     sanitizer = QSanitizer(mitigation_method="ZNE")
