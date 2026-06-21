@@ -35,13 +35,10 @@ if mode == "Custom Circuit Builder":
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        available_gates = ["H (Hadamard)", "X (NOT)", "Y", "Z"]
-        if num_qubits > 1:
-            available_gates.extend(["CX (CNOT)", "CZ"])
-        gate_type = st.selectbox("Select Gate", available_gates)
+        gate_type = st.selectbox("Select Gate", ["H (Hadamard)", "X (NOT)", "Y", "Z", "S", "T", "CX (CNOT)", "CZ"])
     
     with col2:
-        target_q = st.selectbox("Target Qubit", range(num_qubits))
+        target_q = st.selectbox("Target Qubit", range(num_qubits), help="Note: Qubits are 0-indexed. If you have 1 qubit, it's Qubit 0.")
         
     with col3:
         if gate_type in ["CX (CNOT)", "CZ"]:
@@ -72,6 +69,8 @@ if mode == "Custom Circuit Builder":
         elif g["type"] == "X": qc.x(g["target"])
         elif g["type"] == "Y": qc.y(g["target"])
         elif g["type"] == "Z": qc.z(g["target"])
+        elif g["type"] == "S": qc.s(g["target"])
+        elif g["type"] == "T": qc.t(g["target"])
         elif g["type"] == "CX": qc.cx(g["control"], g["target"])
         elif g["type"] == "CZ": qc.cz(g["control"], g["target"])
     
@@ -83,6 +82,18 @@ if mode == "Custom Circuit Builder":
         fig, ax = plt.subplots()
         circuit_drawer(qc, output='mpl', ax=ax)
         st.pyplot(fig)
+        
+        # Download Circuit Button
+        import io
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", bbox_inches="tight")
+        st.download_button(
+            label="📥 Download Circuit Diagram",
+            data=buf.getvalue(),
+            file_name="custom_circuit.png",
+            mime="image/png"
+        )
+        
     except Exception as e:
         st.text(qc.draw(output='text'))
         st.warning("Install 'pylatexenc' for graphical circuit diagrams.")
@@ -117,5 +128,17 @@ else:
         fig, ax = plt.subplots()
         circuit_drawer(qc, output='mpl', ax=ax)
         st.pyplot(fig)
+        
+        # Download Circuit Button
+        import io
+        buf = io.BytesIO()
+        fig.savefig(buf, format="png", bbox_inches="tight")
+        st.download_button(
+            label="📥 Download Algorithm Circuit",
+            data=buf.getvalue(),
+            file_name=f"{algo.replace(' ', '_')}_circuit.png",
+            mime="image/png"
+        )
+        
     except:
         st.text(qc.draw(output='text'))
