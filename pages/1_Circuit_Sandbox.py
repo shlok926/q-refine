@@ -102,7 +102,9 @@ if mode == "Custom Circuit Builder":
     st.markdown("### Simulation Result (Ideal)")
     if st.button("Run Simulation"):
         backend = AerSimulator()
-        result = backend.run(qc, shots=1024).result()
+        from qiskit import transpile
+        qc_t = transpile(qc, backend)
+        result = backend.run(qc_t, shots=1024).result()
         counts = result.get_counts()
         st.bar_chart(counts)
 

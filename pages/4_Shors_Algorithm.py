@@ -91,7 +91,9 @@ else:
     st.markdown("### Run Simulation")
     if st.button("Simulate Shor's Algorithm 🚀"):
         backend = AerSimulator()
-        result = backend.run(qc, shots=1024).result()
+        from qiskit import transpile
+        qc_transpiled = transpile(qc, backend)
+        result = backend.run(qc_transpiled, shots=1024).result()
         counts = result.get_counts()
         st.bar_chart(counts)
         st.success("Simulation Complete! The peaks represent the hidden period $r=4$. From this period, the factors $3$ and $5$ can be classically computed!")
