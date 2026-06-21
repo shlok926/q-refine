@@ -110,3 +110,45 @@ While Q-Refine is currently production-ready, the roadmap for future expansion i
 
 ## 🛡️ Security Note
 This tool evaluates algorithms locally. If you switch `use_real_hardware=True` in the Profiler, ensure your IBM Quantum API Token is saved using `QiskitRuntimeService.save_account()` and **never** hardcoded into the scripts.
+
+---
+
+## 🤝 Contributing & Feedback
+
+Contributions, suggestions, and feedback are highly welcome!
+
+*   **Got suggestions or feature requests?** Feel free to open a new [Issue](https://github.com/shlok926/q-refine/issues) or share your ideas.
+*   **Want to contribute?** Feel free to fork this repository, make your changes, and submit a Pull Request.
+
+---
+
+## ⭐ Show Your Support
+
+<div align="center">
+  <b>Love this tool? Help us grow:</b>
+</div>
+
+```text
+✨ Star the repository    (GitHub Star Button)
+🐛 Report bugs            (GitHub Issues)
+💡 Suggest features       (GitHub Discussions)
+📣 Share with others      (LinkedIn/Twitter)
+🤝 Contribute code        (Pull Requests)
+```
+
+---
+
+## 👤 Author & Contact
+
+<div align="center">
+  <b>👨‍💻 Shlok Thorat</b> <br>
+  <i>Let's connect on LinkedIn, collaborate, and build amazing things together!</i>
+  <br><br>
+
+  <a href="mailto:shlokthorat29075@gmail.com"><img src="https://img.shields.io/badge/Email-shlokthorat29075%40gmail.com-red?style=flat-square&logo=gmail" alt="Email"></a>
+  <a href="https://github.com/shlok926"><img src="https://img.shields.io/badge/GitHub-@shlok926-black?style=flat-square&logo=github" alt="GitHub"></a>
+  <a href="https://www.linkedin.com/in/shlok-thorat-39916a405/"><img src="https://img.shields.io/badge/LinkedIn-shlok--thorat--39916a405-blue?style=flat-square&logo=linkedin" alt="LinkedIn"></a>
+  
+  <br><br>
+  Made with ❤️ for Quantum Computing Innovation • <a href="#-q-refine-quantum-ai-robustness-benchmark">Back to Top</a>
+</div>
