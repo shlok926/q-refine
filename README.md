@@ -14,6 +14,10 @@
   </p>
 
   <p>
+    <a href="https://q-refine.streamlit.app/"><img src="https://img.shields.io/badge/🔴_Live_Demo-Click_Here-FF4B4B?style=for-the-badge&logo=streamlit" alt="Live Demo" /></a>
+  </p>
+
+  <p>
     <a href="#-quick-start">🚀 Quick Start</a> •
     <a href="#-how-to-run-3-ways">💻 Demos</a> •
     <a href="#-architecture">🏗️ Architecture</a> •
@@ -62,8 +66,11 @@ pip install qiskit qiskit-aer matplotlib numpy streamlit jupyter
 
 Q-Refine is designed for different types of users, from enterprise managers to core quantum researchers.
 
-### 1. 🌐 The Streamlit Web Dashboard (For Presentations)
-Run the beautiful interactive web interface where you can adjust noise sliders and generate visual reports live in your browser.
+### 1. 🌐 The Streamlit Web Dashboard (Live Cloud & Local)
+You can test the platform instantly without installing anything via our cloud deployment:
+👉 **[Live Cloud Dashboard: q-refine.streamlit.app](https://q-refine.streamlit.app/)**
+
+Or run it locally on your own machine:
 ```bash
 streamlit run app.py
 ```
