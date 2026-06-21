@@ -12,18 +12,15 @@ from q_refine.core.dashboard import QRefineDashboard
 from qiskit import transpile
 import os
 
-st.set_page_config(page_title="Q-Refine Benchmark Pipeline", layout="wide", page_icon="⚛️")
+st.set_page_config(page_title="Q-Refine Benchmark Pipeline", layout="wide", page_icon="⚛️", initial_sidebar_state="collapsed")
 
-# --- Premium Branding Sidebar ---
+# Completely hide the sidebar and its toggle button
 st.markdown("""
     <style>
-        .sidebar-title {font-size: 28px; font-weight: 800; color: #00d2ff; text-align: center; margin-bottom: 0px; letter-spacing: 1px;}
-        .sidebar-tagline {font-size: 13px; color: #aaaaaa; text-align: center; margin-bottom: 25px; font-style: italic;}
+        [data-testid="collapsedControl"] {display: none;}
+        [data-testid="stSidebar"] {display: none;}
     </style>
 """, unsafe_allow_html=True)
-
-st.sidebar.markdown('<div class="sidebar-title">⚛️ Q-Refine</div>', unsafe_allow_html=True)
-st.sidebar.markdown('<div class="sidebar-tagline">Quantum Robustness Platform</div>', unsafe_allow_html=True)
 
 st.title("⚛️ Q-Refine: Quantum AI Robustness Benchmark")
 st.markdown("An enterprise-grade platform for testing and mitigating hardware noise in Quantum AI circuits using Zero-Noise Extrapolation (ZNE).")
