@@ -16,13 +16,13 @@ def render_sidebar():
     
     with st.sidebar:
         # Determine current page
-        current_page = st.session_state.get("current_page", "Dashboard")
+        current_page = st.session_state.get("current_page", "Benchmark Pipeline")
         
         selected = option_menu(
             menu_title=None,
-            options=["Dashboard", "Circuit Sandbox", "Academy", "Shor's Explorer", "Settings"],
-            icons=["bar-chart-line-fill", "motherboard", "mortarboard-fill", "cpu-fill", "gear-fill"],
-            default_index=["Dashboard", "Circuit Sandbox", "Academy", "Shor's Explorer", "Settings"].index(current_page) if current_page in ["Dashboard", "Circuit Sandbox", "Academy", "Shor's Explorer", "Settings"] else 0,
+            options=["Benchmark Pipeline", "Hardware Settings"],
+            icons=["bar-chart-line-fill", "gear-fill"],
+            default_index=["Benchmark Pipeline", "Hardware Settings"].index(current_page) if current_page in ["Benchmark Pipeline", "Hardware Settings"] else 0,
             styles={
                 "container": {"padding": "0!important", "background-color": "transparent"},
                 "icon": {"color": "#00d2ff", "font-size": "18px"}, 
@@ -33,13 +33,7 @@ def render_sidebar():
         
         if selected != current_page:
             st.session_state["current_page"] = selected
-            if selected == "Dashboard":
+            if selected == "Benchmark Pipeline":
                 st.switch_page("app.py")
-            elif selected == "Circuit Sandbox":
-                st.switch_page("pages/1_Circuit_Sandbox.py")
-            elif selected == "Academy":
-                st.switch_page("pages/2_Q_Refine_Academy.py")
-            elif selected == "Shor's Explorer":
-                st.switch_page("pages/4_Shors_Algorithm.py")
-            elif selected == "Settings":
+            elif selected == "Hardware Settings":
                 st.switch_page("pages/3_Settings.py")

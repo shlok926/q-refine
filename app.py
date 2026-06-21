@@ -13,8 +13,8 @@ from qiskit import transpile
 from navigation import render_sidebar
 import os
 
-st.set_page_config(page_title="Q-Refine Dashboard", layout="wide", page_icon="⚛️")
-st.session_state["current_page"] = "Dashboard"
+st.set_page_config(page_title="Q-Refine Benchmark Pipeline", layout="wide", page_icon="⚛️")
+st.session_state["current_page"] = "Benchmark Pipeline"
 
 # Render Custom Sidebar
 render_sidebar()
