@@ -111,7 +111,7 @@ else:
     from q_refine.circuits.bv import bernstein_vazirani
     from q_refine.circuits.grover import grover_algorithm
     
-    algo = st.selectbox("Select Algorithm", ["Bernstein-Vazirani", "Grover's Search (2 Qubit)"])
+    algo = st.selectbox("Select Algorithm", ["Bernstein-Vazirani", "Grover's Search (2 Qubit)", "Shor's Factoring (N=15, a=7)"])
     
     if algo == "Bernstein-Vazirani":
         secret = st.text_input("Enter Secret String", "101")
@@ -119,9 +119,23 @@ else:
         if not safe_secret: safe_secret = "1"
         qc = bernstein_vazirani(safe_secret)
         st.markdown(f"**Goal:** Find the hidden bitstring `{safe_secret}` in exactly 1 query using phase kickback.")
-    else:
+    elif algo == "Grover's Search (2 Qubit)":
         qc = grover_algorithm()
         st.markdown("**Goal:** Find the marked state `|11>` with high probability using amplitude amplification.")
+    elif algo == "Shor's Factoring (N=15, a=7)":
+        from qiskit.circuit.library import QFT
+        qc = QuantumCircuit(6, 2)
+        qc.h(0)
+        qc.h(1)
+        qc.x(2)
+        qc.cx(0, 3)
+        qc.cx(0, 4)
+        qc.cx(0, 5)
+        qc.cx(1, 2)
+        qc.cx(1, 4)
+        qc.append(QFT(2, inverse=True).to_gate(label="IQFT"), [0, 1])
+        qc.measure([0, 1], [0, 1])
+        st.markdown("**Goal:** Find the period $r=4$ of $7^x \\bmod 15$ to factor 15 into 3 and 5.")
 
     st.markdown("### Circuit Diagram")
     try:
