@@ -46,11 +46,13 @@ with col_h:
     backend_type = st.selectbox("Select Target Backend", ["IBM Digital Twin (Brisbane)", "Custom Noise Level"])
     
     if backend_type == "Custom Noise Level":
-        custom_noise = st.slider("Depolarizing Noise Level (%)", min_value=0.1, max_value=10.0, value=1.0, step=0.1)
+        noise_type = st.selectbox("Noise Type", ["Depolarizing", "Amplitude Damping", "Phase Damping"])
+        custom_noise = st.slider(f"{noise_type} Error Rate (%)", min_value=0.1, max_value=10.0, value=1.0, step=0.1)
         noise_val = custom_noise / 100.0
     else:
         st.info("Uses real T1/T2 & Readout Error calibration data from IBM Brisbane.")
         noise_val = None
+        noise_type = "Depolarizing"
 
 col_btn1, col_btn2 = st.columns(2)
 with col_btn1:
@@ -87,10 +89,21 @@ if run_btn:
             coupling_map = profiler.get_coupling_map()
             optimizer_backend = profiler.backend
         else:
-            st.info(f"Using Custom Depolarizing Noise: {custom_noise}%")
+            st.info(f"Using Custom {noise_type} Noise: {custom_noise}%")
             noise_model = NoiseModel()
-            error_1q = depolarizing_error(noise_val, 1)
-            error_2q = depolarizing_error(noise_val, 2)
+            
+            if noise_type == "Amplitude Damping":
+                from qiskit_aer.noise import amplitude_damping_error
+                error_1q = amplitude_damping_error(noise_val)
+                error_2q = error_1q.tensor(error_1q)
+            elif noise_type == "Phase Damping":
+                from qiskit_aer.noise import phase_damping_error
+                error_1q = phase_damping_error(noise_val)
+                error_2q = error_1q.tensor(error_1q)
+            else:
+                error_1q = depolarizing_error(noise_val, 1)
+                error_2q = depolarizing_error(noise_val, 2)
+                
             noise_model.add_all_qubit_quantum_error(error_1q, ['h', 'x', 'ry', 'rz'])
             noise_model.add_all_qubit_quantum_error(error_2q, ['cx'])
             coupling_map = None
@@ -177,8 +190,18 @@ if sweep_btn:
         for p in noise_levels:
             noise_model = NoiseModel()
             if p > 0:
-                error_1q = depolarizing_error(p, 1)
-                error_2q = depolarizing_error(p, 2)
+                if noise_type == "Amplitude Damping":
+                    from qiskit_aer.noise import amplitude_damping_error
+                    error_1q = amplitude_damping_error(p)
+                    error_2q = error_1q.tensor(error_1q)
+                elif noise_type == "Phase Damping":
+                    from qiskit_aer.noise import phase_damping_error
+                    error_1q = phase_damping_error(p)
+                    error_2q = error_1q.tensor(error_1q)
+                else:
+                    error_1q = depolarizing_error(p, 1)
+                    error_2q = depolarizing_error(p, 2)
+                    
                 noise_model.add_all_qubit_quantum_error(error_1q, ['h', 'x', 'ry', 'rz'])
                 noise_model.add_all_qubit_quantum_error(error_2q, ['cx'])
             
@@ -201,7 +224,7 @@ if sweep_btn:
         for idx, (name, probs) in enumerate(results.items()):
             plt.plot(noise_levels, probs, marker=markers[idx], color=colors[idx], label=name, linewidth=2, markersize=8)
             
-        plt.title('Comparative Algorithm Robustness under Depolarizing Noise', fontsize=14, fontweight='bold', color='white')
+        plt.title(f'Comparative Algorithm Robustness under {noise_type} Noise', fontsize=14, fontweight='bold', color='white')
         plt.xlabel('Noise Probability (p)', fontsize=12, color='white')
         plt.ylabel('Success Probability', fontsize=12, color='white')
         plt.grid(True, linestyle='--', alpha=0.3)
