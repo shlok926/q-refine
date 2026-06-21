@@ -4,6 +4,7 @@ from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel, depolarizing_error
 from q_refine.circuits.qnn import generate_trained_qnn
 from q_refine.circuits.bv import bernstein_vazirani
+from q_refine.circuits.grover import grover_algorithm
 from q_refine.mitigation_engine.q_sanitizer import QSanitizer
 from q_refine.mitigation_engine.topology_optimizer import TopologyOptimizer
 from q_refine.benchmark_engine.hardware_profiler import HardwareProfiler
@@ -18,7 +19,13 @@ st.markdown("An enterprise-grade platform for testing and mitigating hardware no
 
 # --- Sidebar Configuration ---
 st.sidebar.header("Configuration")
-circuit_type = st.sidebar.selectbox("Select Circuit", ["Quantum Neural Network (QNN)", "Bernstein-Vazirani"])
+circuit_type = st.sidebar.selectbox("Select Circuit", ["Quantum Neural Network (QNN)", "Bernstein-Vazirani", "Grover's Search (2-Qubit)"])
+
+if circuit_type == "Bernstein-Vazirani":
+    custom_secret = st.sidebar.text_input("Enter Secret Bitstring (Real Data Input)", "1011")
+else:
+    custom_secret = None
+
 backend_type = st.sidebar.selectbox("Hardware Profiler", ["IBM Digital Twin (Brisbane)", "Custom Noise Level"])
 
 if backend_type == "Custom Noise Level":
@@ -60,9 +67,15 @@ if run_btn:
         if circuit_type == "Quantum Neural Network (QNN)":
             raw_circuit = generate_trained_qnn(num_qubits=5, num_layers=2)
             secret_string = "00000"
-        else:
-            raw_circuit = bernstein_vazirani("1011")
-            secret_string = "1011"
+        elif circuit_type == "Bernstein-Vazirani":
+            # Sanitize user input to be only 1s and 0s
+            safe_secret = ''.join([c for c in custom_secret if c in ['0', '1']])
+            if not safe_secret: safe_secret = "1"
+            raw_circuit = bernstein_vazirani(safe_secret)
+            secret_string = safe_secret
+        elif circuit_type == "Grover's Search (2-Qubit)":
+            raw_circuit = grover_algorithm()
+            secret_string = "11"  # Grover is hardcoded to find |11> in our implementation
             
         # 3. Topology Optimization
         if coupling_map:
