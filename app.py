@@ -4,6 +4,7 @@ from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel, depolarizing_error
 from q_refine.circuits.qnn import generate_trained_qnn
 from q_refine.circuits.bv import bernstein_vazirani
+from q_refine.circuits.simon import simon_algorithm
 from q_refine.circuits.grover import grover_algorithm
 from q_refine.mitigation_engine.q_sanitizer import QSanitizer
 from q_refine.mitigation_engine.topology_optimizer import TopologyOptimizer
@@ -33,10 +34,10 @@ col_c, col_h = st.columns(2)
 
 with col_c:
     st.subheader("1. Quantum Circuit")
-    circuit_type = st.selectbox("Select Circuit", ["Quantum Neural Network (QNN)", "Bernstein-Vazirani", "Grover's Search (2-Qubit)"])
+    circuit_type = st.selectbox("Select Circuit", ["Quantum Neural Network (QNN)", "Bernstein-Vazirani", "Simon's Algorithm", "Grover's Search (2-Qubit)"])
     
-    if circuit_type == "Bernstein-Vazirani":
-        custom_secret = st.text_input("Enter Secret Bitstring (Real Data Input)", "1011")
+    if circuit_type in ["Bernstein-Vazirani", "Simon's Algorithm"]:
+        custom_secret = st.text_input("Enter Secret Bitstring (Real Data Input)", "11")
     else:
         custom_secret = None
 
@@ -58,8 +59,19 @@ def get_success_probability(circuit, secret, noise_model):
     backend = AerSimulator(noise_model=noise_model)
     result = backend.run(circuit, shots=2000).result()
     counts = result.get_counts()
-    qiskit_secret = secret[::-1]
-    return counts.get(qiskit_secret, 0) / 2000.0
+    
+    if circuit.name == "Simon":
+        success_shots = 0
+        total_shots = sum(counts.values())
+        for bitstring, count in counts.items():
+            # Dot product modulo 2 should be 0 for valid Simon outputs
+            dot_product = sum(int(b) * int(s) for b, s in zip(bitstring[::-1], secret))
+            if dot_product % 2 == 0:
+                success_shots += count
+        return success_shots / total_shots if total_shots > 0 else 0
+    else:
+        qiskit_secret = secret[::-1]
+        return counts.get(qiskit_secret, 0) / 2000.0
 
 if run_btn:
     with st.spinner("Profiling Hardware & Running Pipeline..."):
@@ -89,6 +101,11 @@ if run_btn:
             safe_secret = ''.join([c for c in custom_secret if c in ['0', '1']])
             if not safe_secret: safe_secret = "1"
             raw_circuit = bernstein_vazirani(safe_secret)
+            secret_string = safe_secret
+        elif circuit_type == "Simon's Algorithm":
+            safe_secret = ''.join([c for c in custom_secret if c in ['0', '1']])
+            if not safe_secret: safe_secret = "11"
+            raw_circuit = simon_algorithm(safe_secret)
             secret_string = safe_secret
         elif circuit_type == "Grover's Search (2-Qubit)":
             raw_circuit = grover_algorithm()
