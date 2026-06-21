@@ -90,5 +90,23 @@ q_refine/
 
 ---
 
+## 🌍 Applications & Use Cases
+
+Q-Refine is built to accelerate research and production in the most critical areas of quantum computing:
+*   **Quantum Machine Learning (QML) & Quantum AI:** Evaluate how hardware noise degrades the accuracy of Parameterized Quantum Circuits (PQCs) and Quantum Neural Networks, and use ZNE to restore predictive power.
+*   **Quantum Cryptography & Security:** Benchmark cryptographic cracking algorithms (like Grover's) against real-world decoherence to understand the true timeline and threat level of quantum attacks.
+*   **Quantum Hardware Development:** Hardware engineers can use Q-Refine as a diagnostic tool to test the efficacy of their physical qubits against standard algorithmic workloads.
+
+---
+
+## 🔮 Future Scope
+
+While Q-Refine is currently production-ready, the roadmap for future expansion includes:
+1.  **Probabilistic Error Cancellation (PEC):** Implementing advanced PEC mitigation alongside ZNE to offer researchers multiple mathematical approaches to error reduction.
+2.  **Live QPU Execution:** Transitioning from Digital Twins (FakeBackends) to live, queued execution on IBM's physical Quantum Processing Units (QPUs) using premium cloud accounts.
+3.  **Hybrid Algorithm Support:** Adding support for QAOA (Quantum Approximate Optimization Algorithm) for solving logistics and financial modeling problems under noisy conditions.
+
+---
+
 ## 🛡️ Security Note
 This tool evaluates algorithms locally. If you switch `use_real_hardware=True` in the Profiler, ensure your IBM Quantum API Token is saved using `QiskitRuntimeService.save_account()` and **never** hardcoded into the scripts.
