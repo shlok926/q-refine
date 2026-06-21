@@ -52,7 +52,11 @@ with col_h:
         st.info("Uses real T1/T2 & Readout Error calibration data from IBM Brisbane.")
         noise_val = None
 
-run_btn = st.button("Run Q-Refine Pipeline 🚀", type="primary", use_container_width=True)
+col_btn1, col_btn2 = st.columns(2)
+with col_btn1:
+    run_btn = st.button("Run Q-Refine Pipeline 🚀", type="primary", use_container_width=True)
+with col_btn2:
+    sweep_btn = st.button("Run Comparative Robustness Sweep 📈", use_container_width=True)
 
 # --- Core Logic ---
 def get_success_probability(circuit, secret, noise_model):
@@ -157,3 +161,66 @@ if run_btn:
             )
             
         os.remove(img_path)
+
+if sweep_btn:
+    import matplotlib.pyplot as plt
+    with st.spinner("Running Multi-Algorithm Noise Sweep... This might take a few seconds."):
+        noise_levels = [0.0, 0.01, 0.05, 0.10]
+        algos = {
+            "Bernstein-Vazirani": ("11", bernstein_vazirani),
+            "Simon's Algorithm": ("11", simon_algorithm),
+            "Grover's Search (2-Qubit)": ("11", lambda _: grover_algorithm())
+        }
+        
+        results = {name: [] for name in algos.keys()}
+        
+        for p in noise_levels:
+            noise_model = NoiseModel()
+            if p > 0:
+                error_1q = depolarizing_error(p, 1)
+                error_2q = depolarizing_error(p, 2)
+                noise_model.add_all_qubit_quantum_error(error_1q, ['h', 'x', 'ry', 'rz'])
+                noise_model.add_all_qubit_quantum_error(error_2q, ['cx'])
+            
+            for name, (secret, func) in algos.items():
+                if name == "Grover's Search (2-Qubit)":
+                    raw_circuit = func(None)
+                else:
+                    raw_circuit = func(secret)
+                
+                optimized_circuit = transpile(raw_circuit, AerSimulator())
+                prob = get_success_probability(optimized_circuit, secret, noise_model)
+                results[name].append(prob)
+                
+        # Plotting
+        plt.style.use('dark_background')
+        plt.figure(figsize=(10, 6))
+        markers = ['o', 's', '^']
+        colors = ['#00d2ff', '#ff4b4b', '#2ca02c']
+        
+        for idx, (name, probs) in enumerate(results.items()):
+            plt.plot(noise_levels, probs, marker=markers[idx], color=colors[idx], label=name, linewidth=2, markersize=8)
+            
+        plt.title('Comparative Algorithm Robustness under Depolarizing Noise', fontsize=14, fontweight='bold', color='white')
+        plt.xlabel('Noise Probability (p)', fontsize=12, color='white')
+        plt.ylabel('Success Probability', fontsize=12, color='white')
+        plt.grid(True, linestyle='--', alpha=0.3)
+        plt.legend(fontsize=11)
+        plt.ylim(0, 1.05)
+        
+        sweep_img_path = "comparative_sweep.png"
+        plt.savefig(sweep_img_path, dpi=300, bbox_inches='tight', transparent=True)
+        plt.close()
+        
+        st.success("Comparative Sweep Complete!")
+        st.image(sweep_img_path, use_column_width=True)
+        
+        with open(sweep_img_path, "rb") as file:
+            st.download_button(
+                label="📥 Download Comparative Sweep Graph (PNG)",
+                data=file,
+                file_name="comparative_sweep.png",
+                mime="image/png",
+                type="primary"
+            )
+        os.remove(sweep_img_path)
