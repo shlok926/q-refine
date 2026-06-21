@@ -25,15 +25,16 @@ def grover_algorithm():
     return qc
 
 
-# -------- RUN --------
-circuit = grover_algorithm()
-
-# Save circuit diagram
-circuit_drawer(circuit, output="mpl", filename="grover_circuit.png")
-
-# Run simulation
-backend = AerSimulator()
-result = backend.run(circuit, shots=1024).result()
-counts = result.get_counts()
-
-print("Grover measurement result:", counts)
+if __name__ == "__main__":
+    # -------- RUN --------
+    circuit = grover_algorithm()
+    
+    # Save circuit diagram (requires pylatexenc)
+    # circuit_drawer(circuit, output="mpl", filename="grover_circuit.png")
+    
+    # Run simulation
+    backend = AerSimulator()
+    result = backend.run(circuit, shots=1024).result()
+    counts = result.get_counts()
+    
+    print("Grover measurement result:", counts)
