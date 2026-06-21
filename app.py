@@ -26,13 +26,16 @@ if circuit_type == "Bernstein-Vazirani":
 else:
     custom_secret = None
 
-backend_type = st.sidebar.selectbox("Hardware Profiler", ["IBM Digital Twin (Brisbane)", "Custom Noise Level"])
-
-if backend_type == "Custom Noise Level":
-    custom_noise = st.sidebar.slider("Depolarizing Noise Level (%)", min_value=0.1, max_value=10.0, value=1.0, step=0.1)
-    noise_val = custom_noise / 100.0
-else:
-    noise_val = None
+# Dedicated Profile Feature Configuration
+with st.sidebar.expander("🛠️ Hardware Profiler (Profile Feature)", expanded=True):
+    backend_type = st.selectbox("Select Target Backend", ["IBM Digital Twin (Brisbane)", "Custom Noise Level"])
+    
+    if backend_type == "Custom Noise Level":
+        custom_noise = st.slider("Depolarizing Noise Level (%)", min_value=0.1, max_value=10.0, value=1.0, step=0.1)
+        noise_val = custom_noise / 100.0
+    else:
+        st.info("Uses real T1/T2 & Readout Error calibration data from IBM Brisbane.")
+        noise_val = None
 
 run_btn = st.sidebar.button("Run Q-Refine Pipeline 🚀", type="primary")
 
@@ -101,7 +104,7 @@ if run_btn:
         mitigated_prob = sanitizer.richardson_extrapolate(noisy_probs, scale_factors)
 
         # 6. Generate Dashboard
-        img_path = "temp_dashboard.png"
+        img_path = "q_refine_dashboard_output.png"
         QRefineDashboard.generate_report(raw_prob, mitigated_prob, scale_factors, noisy_probs, output_path=img_path)
 
         # --- Display Results ---
@@ -112,4 +115,14 @@ if run_btn:
         col2.metric("Q-Refine Accuracy (Mitigated)", f"{mitigated_prob*100:.2f}%", f"{(mitigated_prob - raw_prob)*100:.2f}% improvement")
 
         st.image(img_path, use_column_width=True)
+
+        # Add Download Button for the generated graph
+        with open(img_path, "rb") as file:
+            st.download_button(
+                label="📥 Download Q-Refine Analytics Report (PNG)",
+                data=file,
+                file_name="q_refine_analytics.png",
+                mime="image/png"
+            )
+            
         os.remove(img_path)
