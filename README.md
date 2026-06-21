@@ -27,7 +27,7 @@
 
 | 🧠 Quantum AI Circuits | 📡 Hardware Profiling | 🛡️ ZNE Mitigation | 🗺️ Topology Optimizer |
 | :--- | :--- | :--- | :--- |
-| **QNNs & VQE Ready**<br>Benchmarks Parameterized Quantum Circuits instead of basic algorithms. | **IBM Digital Twins**<br>Fetches live T1/T2 relaxation times and readout errors via API. | **Mathematical Accuracy**<br>Proprietary circuit folding and Richardson extrapolation. | **Smart Routing**<br>Analyzes physical backend layout to minimize SWAP gate errors. |
+| **Complete Algorithm Suite**<br>Benchmarks QNNs, VQE, Bernstein-Vazirani, Simon's, Grover's, and QFT. | **Advanced Noise Models**<br>Tests Depolarizing, Amplitude Damping, Phase Damping, and live IBM T1/T2 times. | **Mathematical Accuracy**<br>Proprietary circuit folding and Richardson extrapolation. | **Smart Routing**<br>Analyzes physical backend layout to minimize SWAP gate errors. |
 
 ---
 
@@ -87,7 +87,7 @@ jupyter notebook demo.ipynb
 
 ```text
 q_refine/
-├── circuits/            # Quantum AI circuits (QNN, VQE, BV, Grover)
+├── circuits/            # Quantum Algorithms (QNN, VQE, BV, Simon's, Grover, QFT)
 ├── benchmark_engine/    # Hardware Profilers & IBM Digital Twins
 ├── mitigation_engine/   # Custom ZNE Engine & Topology Optimizers
 └── core/                # Dashboards & Utilities
@@ -107,7 +107,7 @@ Q-Refine is built to accelerate research and production in the most critical are
 ## 🔮 Future Scope
 
 While Q-Refine is currently production-ready, the roadmap for future expansion includes:
-1.  **Probabilistic Error Cancellation (PEC):** Implementing advanced PEC mitigation alongside ZNE to offer researchers multiple mathematical approaches to error reduction.
+1.  **Machine Learning Predictor:** Utilizing classical ML models to predict the robustness of arbitrary quantum circuits before execution.
 2.  **Live QPU Execution:** Transitioning from Digital Twins (FakeBackends) to live, queued execution on IBM's physical Quantum Processing Units (QPUs) using premium cloud accounts.
 3.  **Hybrid Algorithm Support:** Adding support for QAOA (Quantum Approximate Optimization Algorithm) for solving logistics and financial modeling problems under noisy conditions.
 
@@ -155,5 +155,5 @@ Contributions, suggestions, and feedback are highly welcome!
   <a href="https://www.linkedin.com/in/shlok-thorat-39916a405/"><img src="https://img.shields.io/badge/LinkedIn-shlok--thorat--39916a405-blue?style=flat-square&logo=linkedin" alt="LinkedIn"></a>
   
   <br><br>
-  Made with Shlok! for Quantum Computing Innovation • <a href="#-q-refine-quantum-ai-robustness-benchmark">Back to Top</a>
+  Made with Shlok!for Quantum Computing Innovation • <a href="#-q-refine-quantum-ai-robustness-benchmark">Back to Top</a>
 </div>
