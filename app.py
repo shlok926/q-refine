@@ -10,24 +10,35 @@ from q_refine.mitigation_engine.topology_optimizer import TopologyOptimizer
 from q_refine.benchmark_engine.hardware_profiler import HardwareProfiler
 from q_refine.core.dashboard import QRefineDashboard
 from qiskit import transpile
+from navigation import render_sidebar
 import os
 
 st.set_page_config(page_title="Q-Refine Dashboard", layout="wide", page_icon="⚛️")
+st.session_state["current_page"] = "Dashboard"
+
+# Render Custom Sidebar
+render_sidebar()
 
 st.title("⚛️ Q-Refine: Quantum AI Robustness Benchmark")
 st.markdown("An enterprise-grade platform for testing and mitigating hardware noise in Quantum AI circuits using Zero-Noise Extrapolation (ZNE).")
 
-# --- Sidebar Configuration ---
-st.sidebar.header("Configuration")
-circuit_type = st.sidebar.selectbox("Select Circuit", ["Quantum Neural Network (QNN)", "Bernstein-Vazirani", "Grover's Search (2-Qubit)"])
+st.divider()
 
-if circuit_type == "Bernstein-Vazirani":
-    custom_secret = st.sidebar.text_input("Enter Secret Bitstring (Real Data Input)", "1011")
-else:
-    custom_secret = None
+# --- Feature Configuration ---
+st.header("Pipeline Configuration")
+col_c, col_h = st.columns(2)
 
-# Dedicated Profile Feature Configuration
-with st.sidebar.expander("🛠️ Hardware Profiler (Profile Feature)", expanded=True):
+with col_c:
+    st.subheader("1. Quantum Circuit")
+    circuit_type = st.selectbox("Select Circuit", ["Quantum Neural Network (QNN)", "Bernstein-Vazirani", "Grover's Search (2-Qubit)"])
+    
+    if circuit_type == "Bernstein-Vazirani":
+        custom_secret = st.text_input("Enter Secret Bitstring (Real Data Input)", "1011")
+    else:
+        custom_secret = None
+
+with col_h:
+    st.subheader("2. Hardware Profiler")
     backend_type = st.selectbox("Select Target Backend", ["IBM Digital Twin (Brisbane)", "Custom Noise Level"])
     
     if backend_type == "Custom Noise Level":
@@ -37,7 +48,7 @@ with st.sidebar.expander("🛠️ Hardware Profiler (Profile Feature)", expanded
         st.info("Uses real T1/T2 & Readout Error calibration data from IBM Brisbane.")
         noise_val = None
 
-run_btn = st.sidebar.button("Run Q-Refine Pipeline 🚀", type="primary")
+run_btn = st.button("Run Q-Refine Pipeline 🚀", type="primary", use_container_width=True)
 
 # --- Core Logic ---
 def get_success_probability(circuit, secret, noise_model):

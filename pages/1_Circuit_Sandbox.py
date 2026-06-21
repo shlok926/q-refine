@@ -3,18 +3,26 @@ from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 from qiskit.visualization import circuit_drawer
 import matplotlib.pyplot as plt
+import sys
+import os
+
+# Ensure navigation module is accessible
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from navigation import render_sidebar
 
 st.set_page_config(page_title="Circuit Sandbox", layout="wide", page_icon="🧪")
+st.session_state["current_page"] = "Circuit Sandbox"
+render_sidebar()
 
 st.title("🧪 Quantum Circuit Sandbox")
 st.markdown("Build your own basic quantum circuits or explore pre-built algorithms to understand how gates manipulate quantum states.")
 
 # --- UI Configuration ---
-st.sidebar.header("Sandbox Configuration")
-mode = st.sidebar.radio("Select Mode", ["Custom Circuit Builder", "Explore Algorithms"])
+mode = st.radio("Select Mode", ["Custom Circuit Builder", "Explore Algorithms"], horizontal=True)
+st.divider()
 
 if mode == "Custom Circuit Builder":
-    num_qubits = st.sidebar.selectbox("Number of Qubits", [1, 2, 3])
+    num_qubits = st.selectbox("Number of Qubits", [1, 2, 3])
     
     st.subheader(f"Building a {num_qubits}-Qubit Circuit")
     

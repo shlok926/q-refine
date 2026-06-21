@@ -1,6 +1,14 @@
 import streamlit as st
+import sys
+import os
+
+# Ensure navigation module is accessible
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from navigation import render_sidebar
 
 st.set_page_config(page_title="Q-Refine Academy", layout="wide", page_icon="🎓")
+st.session_state["current_page"] = "Academy"
+render_sidebar()
 
 st.title("🎓 Q-Refine Academy: Learnings & Concepts")
 st.markdown("Welcome to the Academy! Here you will learn the core concepts behind Quantum Computing, Hardware Noise, and Error Mitigation.")
