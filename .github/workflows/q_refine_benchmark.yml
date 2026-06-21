@@ -24,6 +24,8 @@ jobs:
         pip install qiskit qiskit-aer matplotlib numpy
         
     - name: Run Q-Refine Enterprise Pipeline
+      env:
+        PYTHONPATH: .
       run: |
         python q_refine_pipeline.py
         
