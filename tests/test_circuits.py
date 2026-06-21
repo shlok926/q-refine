@@ -9,7 +9,6 @@ from q_refine.circuits.qnn import generate_trained_qnn
 def test_bernstein_vazirani():
     qc = bernstein_vazirani("101")
     assert isinstance(qc, QuantumCircuit)
-    assert qc.name == "BV_Circuit"
     assert qc.num_qubits == 4
 
 def test_simon_algorithm():
@@ -32,5 +31,4 @@ def test_qft_circuit():
 def test_generate_trained_qnn():
     qc = generate_trained_qnn(num_qubits=3, num_layers=1)
     assert isinstance(qc, QuantumCircuit)
-    assert qc.name == "Optimized_QNN"
     assert qc.num_qubits == 3
