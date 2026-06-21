@@ -3,13 +3,13 @@
 
   <h1>Q-Refine ⚛️</h1>
 
-  <p><em>Enterprise-grade platform for evaluating and mitigating hardware noise in Quantum AI circuits using Zero-Noise Extrapolation (ZNE).</em></p>
+  <p><em>An open-source educational utility and platform for evaluating hardware noise in Quantum circuits and visualizing Zero-Noise Extrapolation (ZNE) mitigation.</em></p>
 
   <p>
     <img src="https://img.shields.io/badge/Python-3.10+-blue.svg" alt="Python" />
     <img src="https://img.shields.io/badge/Framework-Qiskit-purple.svg" alt="Qiskit" />
     <img src="https://img.shields.io/badge/UI-Streamlit-red.svg" alt="Streamlit" />
-    <img src="https://img.shields.io/badge/Status-Production%20Ready-brightgreen.svg" alt="Status" />
+    <img src="https://img.shields.io/badge/Status-Active-brightgreen.svg" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" />
   </p>
 
@@ -31,7 +31,7 @@
 
 | 🧠 Quantum AI Circuits | 📡 Hardware Profiling | 🛡️ ZNE Mitigation | 🗺️ Topology Optimizer |
 | :--- | :--- | :--- | :--- |
-| **Complete Algorithm Suite**<br>Benchmarks QNNs, VQE, Bernstein-Vazirani, Simon's, Grover's, and QFT. | **Advanced Noise Models**<br>Tests Depolarizing, Amplitude Damping, Phase Damping, and live IBM T1/T2 times. | **Mathematical Accuracy**<br>Proprietary circuit folding and Richardson extrapolation. | **Smart Routing**<br>Analyzes physical backend layout to minimize SWAP gate errors. |
+| **Complete Algorithm Suite**<br>Benchmarks QNNs, VQE, Bernstein-Vazirani, Simon's, Grover's, and QFT. | **Advanced Noise Models**<br>Tests Depolarizing, Amplitude Damping, Phase Damping, and live IBM T1/T2 times. | **ZNE Implementation**<br>Custom circuit folding and Richardson extrapolation for error mitigation. | **Smart Routing**<br>Analyzes physical backend layout to minimize SWAP gate errors. |
 
 ---
 
@@ -57,7 +57,7 @@ git clone https://github.com/shlok926/q-refine.git
 cd q-refine
 
 # Install dependencies
-pip install qiskit qiskit-aer matplotlib numpy streamlit jupyter
+pip install qiskit>=1.0.0 qiskit-aer>=0.14.0 matplotlib numpy streamlit>=1.30.0 jupyter
 ```
 
 ---
@@ -113,7 +113,7 @@ Q-Refine is built to accelerate research and production in the most critical are
 
 ## 🔮 Future Scope
 
-While Q-Refine is currently production-ready, the roadmap for future expansion includes:
+While Q-Refine is actively being developed, the roadmap for future expansion includes:
 1.  **Machine Learning Predictor:** Utilizing classical ML models to predict the robustness of arbitrary quantum circuits before execution.
 2.  **Live QPU Execution:** Transitioning from Digital Twins (FakeBackends) to live, queued execution on IBM's physical Quantum Processing Units (QPUs) using premium cloud accounts.
 3.  **Hybrid Algorithm Support:** Adding support for QAOA (Quantum Approximate Optimization Algorithm) for solving logistics and financial modeling problems under noisy conditions.
