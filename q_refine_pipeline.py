@@ -9,6 +9,7 @@ from q_refine.circuits.qnn import generate_trained_qnn
 from q_refine.circuits.bv import bernstein_vazirani
 from q_refine.circuits.simon import simon_algorithm
 from q_refine.circuits.grover import grover_algorithm
+from q_refine.circuits.qft import qft_benchmark_circuit
 from q_refine.mitigation_engine.q_sanitizer import QSanitizer
 from q_refine.benchmark_engine.hardware_profiler import HardwareProfiler
 from q_refine.mitigation_engine.topology_optimizer import TopologyOptimizer
@@ -41,7 +42,8 @@ def run_comparative_sweep():
     algos = {
         "Bernstein-Vazirani": ("11", bernstein_vazirani),
         "Simon's Algorithm": ("11", simon_algorithm),
-        "Grover's Search (2-Qubit)": ("11", lambda _: grover_algorithm())
+        "Grover's Search": ("11", lambda _: grover_algorithm()),
+        "QFT (3-Qubit)": ("000", lambda _: qft_benchmark_circuit(3))
     }
     
     results = {name: [] for name in algos.keys()}
@@ -56,7 +58,7 @@ def run_comparative_sweep():
         
         print(f"\n[*] Testing at Noise Level p = {p}")
         for name, (secret, func) in algos.items():
-            if name == "Grover's Search (2-Qubit)":
+            if name in ["Grover's Search", "QFT (3-Qubit)"]:
                 raw_circuit = func(None)
             else:
                 raw_circuit = func(secret)
@@ -69,8 +71,8 @@ def run_comparative_sweep():
     # Plotting
     plt.style.use('dark_background')
     plt.figure(figsize=(10, 6))
-    markers = ['o', 's', '^']
-    colors = ['#00d2ff', '#ff4b4b', '#2ca02c']
+    markers = ['o', 's', '^', 'D']
+    colors = ['#00d2ff', '#ff4b4b', '#2ca02c', '#9467bd']
     
     for idx, (name, probs) in enumerate(results.items()):
         plt.plot(noise_levels, probs, marker=markers[idx], color=colors[idx], label=name, linewidth=2, markersize=8)
