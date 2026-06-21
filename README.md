@@ -11,6 +11,7 @@
     <img src="https://img.shields.io/badge/UI-Streamlit-red.svg" alt="Streamlit" />
     <img src="https://img.shields.io/badge/Status-Active-brightgreen.svg" alt="Status" />
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" />
+    <img src="https://github.com/shlok926/q-refine/actions/workflows/python-app.yml/badge.svg" alt="Build Status" />
   </p>
 
   <p>
